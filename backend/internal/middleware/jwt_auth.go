@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/Wei-Shaw/sub2api/internal/model"
 	"github.com/Wei-Shaw/sub2api/internal/service"
@@ -30,7 +31,7 @@ func JWTAuth(authService *service.AuthService, userRepo interface {
 		// 验证token
 		claims, err := authService.ValidateToken(tokenString)
 		if err != nil {
-			if err == service.ErrTokenExpired {
+			if errors.Is(err, service.ErrTokenExpired) {
 				AbortWithError(c, 401, "TOKEN_EXPIRED", "Token has expired")
 				return
 			}

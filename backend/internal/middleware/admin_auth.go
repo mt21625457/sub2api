@@ -3,6 +3,7 @@ package middleware
 import (
 	"context"
 	"crypto/subtle"
+	"errors"
 	"fmt"
 	"github.com/Wei-Shaw/sub2api/internal/model"
 	"github.com/Wei-Shaw/sub2api/internal/service"
@@ -103,7 +104,7 @@ func validateJWTForAdmin(
 	// 验证 JWT token
 	claims, err := authService.ValidateToken(token)
 	if err != nil {
-		if err == service.ErrTokenExpired {
+		if errors.Is(err, service.ErrTokenExpired) {
 			AbortWithError(c, 401, "TOKEN_EXPIRED", "Token has expired")
 			return false
 		}

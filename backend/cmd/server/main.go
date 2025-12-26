@@ -84,7 +84,7 @@ func main() {
 
 func runSetupServer() {
 	r := gin.New()
-	r.Use(gin.Recovery())
+	r.Use(middleware.Recovery())
 	if err := configureTrustedProxies(r); err != nil {
 		log.Printf("failed to configure trusted proxies: %v", err)
 	}
